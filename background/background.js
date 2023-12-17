@@ -10,6 +10,36 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   }
 });
 
+
+// Handle adblock statistics
+let blockedAdsCount = 0;
+
+chrome.declarativeNetRequest.onRuleMatched.addListener(({ rule }) => {
+  if (rule.action.type === 'block') {
+    blockedAdsCount++;
+    updatePopupCounter();
+  }
+});
+
+// Update the popup with the most recent number of blocked ads
+function updatePopupCounter() {
+  chrome.runtime.sendMessage({ blockedAdsCount: blockedAdsCount });
+}
+
+// Reset the counter when the browser starts a new session or on demand
+function resetCounter() {
+  blockedAdsCount = 0;
+  chrome.declarativeNetRequest.clearRuleMatchedCounts();
+  updatePopupCounter();
+}
+
+// Listen for messages from the popup
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.getBlockedAdsCount) {
+    sendResponse({ blockedAdsCount: blockedAdsCount });
+  }
+});
+
 function updateAdBlocking(enabled) {
   if (enabled) {
     chrome.declarativeNetRequest.updateEnabledRulesets({
