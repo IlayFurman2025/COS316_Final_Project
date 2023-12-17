@@ -7,27 +7,32 @@ function maskData(field) {
   } else {
     // Update the stored original value only if it's not currently masked
     if (!isMaskingEnabled) {
-      field.dataset.originalValue = field.value;
+      if (field.value.includes("*")) {
+        field.value = field.dataset.originalValue;
+      }
+      // typing
+      if (field.value.length > field.dataset.originalValue.length) {
+        field.dataset.originalValue += field.value.slice(-1);
+      }
+      //deleting
+      else if (field.value.length < field.dataset.originalValue.length) {
+        field.dataset.originalValue = field.dataset.originalValue.slice(0, -1);
+      }
     }
   }
   if (isMaskingEnabled) {
-    field.value = field.value.replace(/./g, "*");
-  }
-}
+    // typing
+    if (field.value.length > field.dataset.originalValue.length) {
+      field.dataset.originalValue += field.value.slice(-1);
+    }
+    //deleting
+    else if (field.value.length < field.dataset.originalValue.length) {
+      field.dataset.originalValue = field.dataset.originalValue.slice(0, -1);
+    }
 
-// Function to unmask data in a field
-function unmaskData(field) {
-  if (field.dataset.originalValue !== undefined) {
-    field.value = field.dataset.originalValue;
-  }
-}
-
-// Apply or remove masking from a field based on isMaskingEnabled
-function applyMaskingToField(field) {
-  if (isMaskingEnabled) {
-    maskData(field);
-  } else {
-    unmaskData(field);
+    field.value =
+      field.dataset.originalValue.slice(0, -1).replace(/./g, "*") +
+      field.dataset.originalValue.slice(-1);
   }
 }
 
@@ -44,7 +49,7 @@ function initializeInputFields() {
     'input[type="text"], input[type="search"], input:not([type])'
   );
   inputFields.forEach((field) => {
-    applyMaskingToField(field);
+    maskData(field);
     setupFieldListeners(field);
   });
 }
@@ -59,7 +64,7 @@ const observer = new MutationObserver((mutations) => {
             'input[type="text"], input[type="search"], input:not([type])'
           )
           .forEach((field) => {
-            applyMaskingToField(field);
+            maskData(field);
             setupFieldListeners(field);
           });
       }
