@@ -3,7 +3,11 @@
   "name": "Privacy Enhancer and Ad Blocker",
   "version": "1.0",
   "description": "Blocks unwanted ads and protects user privacy by masking sensitive data on web forms.",
-    "permissions": ["storage", "declarativeNetRequest", "declarativeNetRequestFeedback"],
+  "permissions": [
+    "storage",
+    "declarativeNetRequest",
+    "declarativeNetRequestFeedback"
+  ],
   "host_permissions": ["<all_urls>"],
   "background": {
     "service_worker": "background/background.js"

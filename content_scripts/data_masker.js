@@ -10,22 +10,22 @@ function maskData(field) {
       if (field.value.includes("*")) {
         field.value = field.dataset.originalValue;
       }
-      // typing
+      // Typing
       if (field.value.length > field.dataset.originalValue.length) {
         field.dataset.originalValue += field.value.slice(-1);
       }
-      //deleting
+      // Deleting
       else if (field.value.length < field.dataset.originalValue.length) {
         field.dataset.originalValue = field.dataset.originalValue.slice(0, -1);
       }
     }
   }
   if (isMaskingEnabled) {
-    // typing
+    // Typing
     if (field.value.length > field.dataset.originalValue.length) {
       field.dataset.originalValue += field.value.slice(-1);
     }
-    //deleting
+    // Deleting
     else if (field.value.length < field.dataset.originalValue.length) {
       field.dataset.originalValue = field.dataset.originalValue.slice(0, -1);
     }
@@ -54,8 +54,27 @@ function initializeInputFields() {
   });
 }
 
-initializeFormSubmissions();
-handleFormSubmissions();
+// Apply submission handling to all forms on the page
+function handleFormSubmissions() {
+  const forms = document.querySelectorAll("form");
+  forms.forEach((form) => {
+    form.addEventListener("submit", (event) => {
+      event.preventDefault(); // Prevent the default submission
+
+      const inputFields = form.querySelectorAll(
+        'input[type="text"], input[type="search"], input:not([type])'
+      );
+      inputFields.forEach((field) => {
+        if (field.dataset.originalValue !== undefined) {
+          field.value = field.dataset.originalValue;
+        }
+      });
+
+      // Manually submit the form after updating the fields
+      form.submit();
+    });
+  });
+}
 
 // MutationObserver to monitor changes in the DOM and apply masking to new input fields
 const observer = new MutationObserver((mutations) => {
@@ -86,43 +105,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 });
 
-function handleFormSubmission(form) {
-  form.addEventListener("submit", () => {
-    const inputFields = form.querySelectorAll(
-      'input[type="text"], input[type="search"], input:not([type])'
-    );
-    inputFields.forEach((field) => {
-      if (field.dataset.originalValue !== undefined) {
-        field.value = field.dataset.originalValue;
-      }
-    });
-  });
-}
-
-function initializeFormSubmissions() {
-  const forms = document.querySelectorAll("form");
-  forms.forEach(handleFormSubmission);
-}
-
-function handleFormSubmissions() {
-  // Select all forms on the page
-  const forms = document.querySelectorAll("form");
-  forms.forEach((form) => {
-    form.addEventListener("submit", (event) => {
-      // Update the value of all relevant input fields before the form is submitted
-      const inputFields = form.querySelectorAll(
-        'input[type="text"], input[type="search"], input:not([type])'
-      );
-      inputFields.forEach((field) => {
-        if (field.dataset.originalValue !== undefined) {
-          field.value = field.dataset.originalValue;
-        }
-      });
-    });
-  });
-}
-
-// Initialize fields on DOMContentLoaded
+// Initialize fields and form submissions on DOMContentLoaded
 document.addEventListener("DOMContentLoaded", () => {
   initializeInputFields();
+  handleFormSubmissions();
 });
