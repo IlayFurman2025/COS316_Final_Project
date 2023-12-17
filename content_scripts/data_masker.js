@@ -54,6 +54,9 @@ function initializeInputFields() {
   });
 }
 
+initializeFormSubmissions();
+handleFormSubmissions();
+
 // MutationObserver to monitor changes in the DOM and apply masking to new input fields
 const observer = new MutationObserver((mutations) => {
   mutations.forEach((mutation) => {
@@ -82,6 +85,42 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     initializeInputFields();
   }
 });
+
+function handleFormSubmission(form) {
+  form.addEventListener("submit", () => {
+    const inputFields = form.querySelectorAll(
+      'input[type="text"], input[type="search"], input:not([type])'
+    );
+    inputFields.forEach((field) => {
+      if (field.dataset.originalValue !== undefined) {
+        field.value = field.dataset.originalValue;
+      }
+    });
+  });
+}
+
+function initializeFormSubmissions() {
+  const forms = document.querySelectorAll("form");
+  forms.forEach(handleFormSubmission);
+}
+
+function handleFormSubmissions() {
+  // Select all forms on the page
+  const forms = document.querySelectorAll("form");
+  forms.forEach((form) => {
+    form.addEventListener("submit", (event) => {
+      // Update the value of all relevant input fields before the form is submitted
+      const inputFields = form.querySelectorAll(
+        'input[type="text"], input[type="search"], input:not([type])'
+      );
+      inputFields.forEach((field) => {
+        if (field.dataset.originalValue !== undefined) {
+          field.value = field.dataset.originalValue;
+        }
+      });
+    });
+  });
+}
 
 // Initialize fields on DOMContentLoaded
 document.addEventListener("DOMContentLoaded", () => {
