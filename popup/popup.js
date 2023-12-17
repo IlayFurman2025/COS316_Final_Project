@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   chrome.runtime.onMessage.addListener((message, sender) => {
     if (message.blockedAdsCount !== undefined) {
-      updateCounterDisplay(message.blockedAdsCount);
+	updateCounterDisplay(message.blockedAdsCount);
     }
   });
+}
