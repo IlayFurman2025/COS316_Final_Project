@@ -3,22 +3,27 @@ chrome.runtime.onInstalled.addListener(function () {
   chrome.storage.local.set({ adBlockerEnabled: true });
 });
 
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  if (request.adBlockerEnabled !== undefined) {
-    // Update ad blocking functionality based on the state
-    updateAdBlocking(request.adBlockerEnabled);
-  }
-});
-
-
 // Handle adblock statistics
 let blockedAdsCount = 0;
 
 chrome.declarativeNetRequest.onRuleMatched.addListener(({ rule }) => {
   if (rule.action.type === 'block') {
     blockedAdsCount++;
-    updatePopupCounter();
+    // Inform the popup
+    if (chrome.runtime.lastError === undefined) { // Avoid errors when popup is not open
+      chrome.runtime.sendMessage({ blockedAdsCount: blockedAdsCount });
+    }
   }
+});
+
+// Combine message listeners
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+  if (message.getBlockedAdsCount) {
+    sendResponse({ blockedAdsCount: blockedAdsCount });
+  } else if (message.adBlockerEnabled !== undefined) {
+    updateAdBlocking(message.adBlockerEnabled);
+  }
+    return true; // Indicates a response will be sent asynchronously
 });
 
 // Update the popup with the most recent number of blocked ads
