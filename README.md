@@ -2,15 +2,19 @@
 
 ## By Illay Furman and Carl Zielinski, Fall 2023
 
+- Writeup: https://docs.google.com/document/d/1q59rXZKgBxwoDwCoY4eJUpB5JGj8NF15jzku-Gd9VlI/edit?usp=sharing
+
+- Video:
+
+- Github: https://github.com/IlayFurman2025/COS316_Final_Project.git
 
 **Privacy Plus Adblock - Enhance Your Privacy and Browsing Experience!**
 
-Please see the included paper for full system details and performance analysis. 
-
+Please see the included paper for full system details and performance analysis.
 
 **Compatibility**
 
-Privacy Plus Adblock is compatible with any Chromium-based browser. We have tested and confirmed it works with Google Chrome,  (the new) Microsoft Edge, and Brave. However, you should be able to install on other Chromium browsers. 
+Privacy Plus Adblock is compatible with any Chromium-based browser. We have tested and confirmed it works with Google Chrome, (the new) Microsoft Edge, and Brave. However, you should be able to install on other Chromium browsers.
 
 **Installation Instructions**
 
@@ -18,6 +22,6 @@ This extension is not currently on the Chrome Web Store - it must be installed u
 
 **Usage Instructions**
 
-There are two options in the extension menu: a toggle for the adblocker, and a toggle for the data masker. By default, the adblocker is enabled, and the data masker is disabled. 
+There are two options in the extension menu: a toggle for the adblocker, and a toggle for the data masker. By default, the adblocker is enabled, and the data masker is disabled.
 
-The adblocker works for any website, while the data masker works for sites with input fields. 
+The adblocker works for any website, while the data masker works for sites with input fields.
