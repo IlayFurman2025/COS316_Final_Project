@@ -1,6 +1,5 @@
 let isMaskingEnabled = false;
 
-// Function to mask data in a field
 function maskData(field) {
   if (field.dataset.originalValue === undefined) {
     field.dataset.originalValue = field.value;
@@ -36,14 +35,12 @@ function maskData(field) {
   }
 }
 
-// Set up event listeners on input fields for real-time masking and value updates
 function setupFieldListeners(field) {
   field.addEventListener("input", () => {
     maskData(field);
   });
 }
 
-// Iterate over and initialize all applicable input fields
 function initializeInputFields() {
   const inputFields = document.querySelectorAll(
     'input[type="text"], input[type="search"], input:not([type])'
@@ -54,7 +51,7 @@ function initializeInputFields() {
   });
 }
 
-// Apply submission handling to all forms on the page
+// Apply submission handling to all forms on the page (ended up failing for unknown reason)
 function handleFormSubmissions() {
   const forms = document.querySelectorAll("form");
   forms.forEach((form) => {
@@ -76,7 +73,6 @@ function handleFormSubmissions() {
   });
 }
 
-// MutationObserver to monitor changes in the DOM and apply masking to new input fields
 const observer = new MutationObserver((mutations) => {
   mutations.forEach((mutation) => {
     mutation.addedNodes.forEach((node) => {
@@ -94,7 +90,6 @@ const observer = new MutationObserver((mutations) => {
   });
 });
 
-// Start observing the document body for added nodes
 observer.observe(document.body, { childList: true, subtree: true });
 
 // Listen for toggle message from popup
@@ -105,7 +100,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 });
 
-// Initialize fields and form submissions on DOMContentLoaded
 document.addEventListener("DOMContentLoaded", () => {
   initializeInputFields();
   handleFormSubmissions();
