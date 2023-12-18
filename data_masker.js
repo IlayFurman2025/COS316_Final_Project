@@ -56,11 +56,10 @@ function initializeInputFields() {
 
 // Apply submission handling to all forms on the page
 function handleFormSubmissions() {
-  const forms = document.querySelectorAll();
+  const forms = document.querySelectorAll("form");
   forms.forEach((form) => {
     form.addEventListener("submit", (event) => {
-      console.log("yoooo");
-      event.preventDefault();
+      event.preventDefault(); // Prevent the default submission
 
       const inputFields = form.querySelectorAll(
         'input[type="text"], input[type="search"], input:not([type])'

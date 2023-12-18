@@ -2,7 +2,7 @@ chrome.runtime.onInstalled.addListener(function () {
   chrome.storage.local.set({ adBlockerEnabled: true });
 });
 
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+chrome.runtime.onMessage.addListener(function (request) {
   if (request.adBlockerEnabled !== undefined) {
     updateAdBlocking(request.adBlockerEnabled);
   }
