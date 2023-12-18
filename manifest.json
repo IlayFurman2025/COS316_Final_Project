@@ -10,12 +10,12 @@
   ],
   "host_permissions": ["<all_urls>"],
   "background": {
-    "service_worker": "background/background.js"
+    "service_worker": "background.js"
   },
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["content_scripts/data_masker.js"]
+      "js": ["data_masker.js"]
     }
   ],
   "action": {
