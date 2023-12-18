@@ -1,5 +1,4 @@
 chrome.runtime.onInstalled.addListener(function () {
-  // Set the default state of the ad blocker to 'enabled' when the extension is installed
   chrome.storage.local.set({ adBlockerEnabled: true });
 });
 
