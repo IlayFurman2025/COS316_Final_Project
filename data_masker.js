@@ -1,4 +1,5 @@
 let isMaskingEnabled = false;
+let isSubmitting = false;
 
 // Function to mask data in a field
 function maskData(field) {
@@ -59,6 +60,11 @@ function handleFormSubmissions() {
   const forms = document.querySelectorAll("form");
   forms.forEach((form) => {
     form.addEventListener("submit", (event) => {
+      if (isSubmitting) {
+        // Submission in progress, proceed 
+        return;
+      }
+      
       event.preventDefault(); // Prevent the default submission
 
       const inputFields = form.querySelectorAll(
@@ -71,7 +77,9 @@ function handleFormSubmissions() {
       });
 
       // Manually submit the form after updating the fields
+      isSubmitting = true;
       form.submit();
+      isSubmitting = false;
     });
   });
 }
