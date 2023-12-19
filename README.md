@@ -4,7 +4,7 @@
 
 - Writeup: https://docs.google.com/document/d/1q59rXZKgBxwoDwCoY4eJUpB5JGj8NF15jzku-Gd9VlI/edit?usp=sharing
 
-- Video:
+- Video: https://drive.google.com/file/d/1wFo5MY9pDzQ9xL7hzF5HX2JB276fQvHZ/view
 
 - Github: https://github.com/IlayFurman2025/COS316_Final_Project.git
 
